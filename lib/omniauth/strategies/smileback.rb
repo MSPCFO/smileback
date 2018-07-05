@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'omniauth-oauth2'
-require 'smileback/configuration'
 
 module OmniAuth
   module Strategies
@@ -14,13 +13,8 @@ module OmniAuth
         token_url: ENV['SMILEBACK_TOKEN_URL']
       }
 
-      uid { raw_info['id'] }
-
-      info do
-        {
-          name: raw_info['name'],
-          email: raw_info['email']
-        }
+      def callback_url
+        full_host + script_name + callback_path
       end
     end
   end
