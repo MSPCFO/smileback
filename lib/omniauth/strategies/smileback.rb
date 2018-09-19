@@ -8,9 +8,9 @@ module OmniAuth
       option :name, 'smileback'
 
       option :client_options, {
-        site:  ENV['SMILEBACK_SITE'],
-        authorize_url: ENV['SMILEBACK_AUTHORIZATION_URL'],
-        token_url: ENV['SMILEBACK_TOKEN_URL']
+        site:  ENV['SMILEBACK_SITE'] || 'https://www.smileback.io',
+        authorize_url: ENV['SMILEBACK_AUTHORIZATION_URL'] || 'https://app.smileback.io/account/api/authorize/',
+        token_url: ENV['SMILEBACK_TOKEN_URL'] || 'https://api.smileback.io/token/'
       }
 
       def callback_url

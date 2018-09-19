@@ -11,7 +11,7 @@ module Smileback
     debug_output $stdout
 
     def initialize(token:, refresh_token:, expires_at:, expires: true)
-      self.class.base_uri "https://#{Smileback.configuration.api_base_url}"
+      self.class.base_uri Smileback.configuration.api_base_url
 
       @access_token = OAuth2::AccessToken.new(
         oauth2_client,
@@ -52,7 +52,7 @@ module Smileback
         @oauth2_client ||= OAuth2::Client.new(
           Smileback.configuration.client_id,
           Smileback.configuration.client_secret, {
-            token_url: "https://#{Smileback.configuration.api_base_url}/token/"
+            token_url: "#{Smileback.configuration.api_base_url}/token/"
           }
         )
       end
