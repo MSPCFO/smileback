@@ -40,7 +40,7 @@ module Smileback
     # @param query [Hash] query params; { modified_since: '2017-10-27T07:43:15Z' }
     # @return [HTTParty::Response]
     def get(path, query = {})
-      access_token.refresh! if access_token.expired?
+      refresh_access_token
 
       self.class.get(path, {
         headers: { Authorization: "Bearer #{access_token.token}" },
@@ -57,6 +57,10 @@ module Smileback
             token_url: "#{Smileback.configuration.api_base_url}/token/"
           }
         )
+      end
+
+      def refresh_access_token
+        self.access_token = access_token.refresh! if access_token.expired?
       end
   end
 end
