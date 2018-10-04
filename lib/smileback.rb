@@ -10,6 +10,8 @@ module Smileback
 
     debug_output $stdout
 
+    attr_accessor :access_token
+
     def initialize(token:, refresh_token:, expires_at:, expires: true)
       self.class.base_uri Smileback.configuration.api_base_url
 
@@ -25,9 +27,9 @@ module Smileback
     # @return [Hash]
     def credentials
       {
-        token: @access_token.token,
-        refresh_token: @access_token.refresh_token,
-        expires_at: @access_token.expires_at,
+        token: access_token.token,
+        refresh_token: access_token.refresh_token,
+        expires_at: access_token.expires_at,
         expires: true
       }
     end
@@ -38,10 +40,10 @@ module Smileback
     # @param query [Hash] query params; { modified_since: '2017-10-27T07:43:15Z' }
     # @return [HTTParty::Response]
     def get(path, query = {})
-      @access_token.refresh! if @access_token.expired?
+      access_token.refresh! if access_token.expired?
 
       self.class.get(path, {
-        headers: { Authorization: "Bearer #{@access_token.token}" },
+        headers: { Authorization: "Bearer #{access_token.token}" },
         query: query
       })
     end
